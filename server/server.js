@@ -1,10 +1,17 @@
+
 const express = require("express");
+
 const app = express();
 const router = require("./routes/auth-router");
 const PORT = 5000;
- app.use(express.json())
+const connectDb = require("./utils/db");
+
+app.use(express.json());
+
 app.use("/api/auth", router);
 
-app.listen(PORT, () => {
-  console.log(`server is running at : ${PORT}`);
+connectDb().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server is running at : ${PORT}`);
+  });
 });
