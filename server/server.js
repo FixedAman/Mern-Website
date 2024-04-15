@@ -1,6 +1,5 @@
-
 const express = require("express");
-
+require("dotenv").config();
 const app = express();
 const router = require("./routes/auth-router");
 const PORT = 5000;
