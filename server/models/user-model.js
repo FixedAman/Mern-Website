@@ -40,6 +40,11 @@ userSchema.pre("save", async function (next) {
     next(error);
   }
 });
+// comparing password 
+userSchema.methods.comparePassword = async function(password){
+  return bcrypt.compare(password, this.password);
+}
+
 
 // JWT token generation method
 userSchema.methods.generateToken = async function () {

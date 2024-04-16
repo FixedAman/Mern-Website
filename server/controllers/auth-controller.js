@@ -6,7 +6,7 @@ const home = async (req, res) => {
     res.status(200).json("Welcome to My Website");
   } catch (error) {
     console.log(error);
-    res.status(500).json({ msg: "Internal server error" });
+    return res.status(500).json({ msg: "Internal server error" });
   }
 };
 
@@ -35,8 +35,8 @@ const register = async (req, res) => {
       userID: userCreated._id.toString(),
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ msg: "Internal server error" });
+    next(error);
+    // res.status(500).json({ msg: "Internal server error" });
   }
 };
 
@@ -46,11 +46,13 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const userExist = await User.findOne({ email });
-    console.log(userExist)
+    console.log(userExist);
     if (!userExist) {
       return res.status(400).json({ msg: "invalid crediantials " });
     }
-    const user = await bcrypt.compare(password, userExist.password);
+    // const user = await bcrypt.compare(password, userExist.password);
+    const user = await userExist.comparePassword(password);
+
     if (user) {
       res.status(200).json({
         msg: "login sucessful",
