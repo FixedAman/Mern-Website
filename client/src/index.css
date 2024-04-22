@@ -2,9 +2,134 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-
+  color-scheme: light dark
 };
 
+:root{
+  --bg-color:#f4f3ff;
+  --btn-color:#646cff;
+  --dark-color:#242424;
+  --helper-color:#99b9ff;
+}
 html{
   font-size: 62.5%;
+}
+/* base style  */
+body{
+  margin: 0;
+  /* min-width: 32rem; */
+  min-height: 100vh;
+}
+h1{
+  font-size :5rem;
+  line-height: 1.1;
+  font-weight: bold;
+}
+p,li,label,input,textarea{
+  font-size: 1.8rem;
+  line-height: 1.56;
+  letter-spacing: 0.1rem;
+  word-spacing: 0.06rem;
+}
+
+
+a{
+  font-weight: 500;
+  font-size: 1.8rem;
+  letter-spacing: 0.1rem;
+  color: var(--btn-color);
+  text-decoration:inherit;
+}
+li{
+  list-style: none;
+}
+.container{
+  max-width: 140rem;
+  padding: 4rem 2rem;
+  margin: 0 auto;
+}
+.grid{
+  display: grid;
+  gap:6.4rem;
+}
+.grid-two-cols {
+  grid-template-columns: repeat(2,1fr);
+}
+.grid-four-cols{
+  grid-template-columns: repeat(4 , 1fr);
+}
+/* resuable */
+button{
+  text-transform: capitalize;
+  padding: 1rem 2.2rem ;
+  font-size: 1.7rem; 
+  font-weight: 500;
+  background-color:rgb(38, 120, 158);
+  border-radius: 0.8rem;
+  border: 0.1rem solid transparent;
+  cursor: pointer;
+  letter-spacing: 0.01rem;
+  transition:border-color 0.3s ;
+}
+.btn-secondary{
+  background-color: transparent;
+ box-shadow: inset 0 0 0 0.2rem white;
+    margin-left: 3.2rem;
+}
+
+/* state rules  */
+button:hover{
+  box-shadow: inset 0 0 0 0.2rem rgb(38, 120, 158);
+}
+a:hover,a.active{
+  color:rgb(38, 120, 158); 
+}
+
+/* hero section  */
+.section-hero{
+  & .grid{
+    align-items: center;
+  }
+  .hero-content{
+    & p {
+      margin:2.4rem 0 4.8rem 0 ;
+      &:first-child {
+        margin: 0 0 1.2rem 0;
+      }
+
+    }
+  }
+  .hero-image{
+    display: flex ;
+    justify-content: center;
+    & img{
+      width: 70%;
+      height: auto;
+    }
+  }
+}
+/* analytics section */
+.section-analytics{
+  margin: 9.6rem;
+  & .container{
+    background-color: #f4f3ff;
+  border-radius: 1rem;
+  }
+  & .grid {
+    color: #242424;
+    & .div1{
+      text-align: center;
+      border-right: 0.2rem solid black;
+      &:last-child{
+        border: none;
+      }
+      & h2{
+        font-size: 3.2rem;
+
+      }
+      & p{
+        text-decoration:capitalize ;
+      }
+    }
+  }
 }
