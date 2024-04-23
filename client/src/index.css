@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
   color-scheme: light dark
+ 
 };
 
 :root{
@@ -13,6 +14,7 @@
 }
 html{
   font-size: 62.5%;
+  font-family: cursive;
 }
 /* base style  */
 body{
@@ -26,7 +28,7 @@ h1{
   font-weight: bold;
 }
 p,li,label,input,textarea{
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   line-height: 1.56;
   letter-spacing: 0.1rem;
   word-spacing: 0.06rem;
@@ -129,6 +131,50 @@ a:hover,a.active{
       }
       & p{
         text-decoration:capitalize ;
+      }
+    }
+  }
+}
+/* contact form  */
+.section-contact {
+  & .contact-content {
+    padding: 0;
+
+    & h1 {
+      margin-bottom: 3.2rem;
+    }
+  }
+
+  & .container {
+    padding-top: 3.2rem;
+  }
+
+  & .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6.4rem;
+    align-items: center;
+
+    & .contact-img img {
+      width: 80%;
+      height: auto;
+    }
+  }
+
+  & .contact-form {
+    & form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      & label {
+        text-transform: capitalize;
+      }
+
+      & input,
+      textarea {
+        width: 100%;
+        
       }
     }
   }

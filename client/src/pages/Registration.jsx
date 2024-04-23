@@ -39,7 +39,7 @@ const Registration = () => {
               </div>
               {/* registration form  */}
               <div className="Registration-form">
-                <h1 className="main-heading mb-3"> registration form </h1>
+                <h1 className="main-heading mb-3"> Register Now ! </h1>
                 <br />
                 <form action="" onSubmit={handleSubmit}>
                   <div>
