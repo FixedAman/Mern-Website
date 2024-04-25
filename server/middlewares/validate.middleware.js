@@ -5,16 +5,21 @@ const validate = (schema) => async (req, res, next) => {
     next();
   } catch (err) {
     const status = 422;
-   
-    const message = "ivalid input"
-    const extraDetails = err.errors[0].message;
+    const message = "Invalid input";
+
+    let extraDetails = "Unknown error";
+    if (err.errors && err.errors.length > 0) {
+      extraDetails = err.errors[0].message;
+    }
+
     const error = {
       message,
       status,
       extraDetails
     };
+
     console.log(error);
-    next(error)
+    next(error);
   }
 };
 

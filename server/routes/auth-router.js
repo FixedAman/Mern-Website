@@ -8,7 +8,7 @@ router.route("/").get(authcontrollers.home);
 
 router
   .route("/registration")
-  .post(validate(signupSchema), authcontrollers.register);
+  .post(authcontrollers.register);
 
 router.route("/login").post(authcontrollers.login);
 

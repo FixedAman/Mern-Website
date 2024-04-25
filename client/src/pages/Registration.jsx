@@ -19,9 +19,24 @@ const Registration = () => {
     });
   };
   // form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(user);
+    console.log(user);
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/auth/registration`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.log("register", error);
+    }
   };
   return (
     <>
@@ -38,7 +53,7 @@ const Registration = () => {
                 />
               </div>
               {/* registration form  */}
-              <div className="Registration-form">
+              <div className="registration-form">
                 <h1 className="main-heading mb-3"> Register Now ! </h1>
                 <br />
                 <form action="" onSubmit={handleSubmit}>
