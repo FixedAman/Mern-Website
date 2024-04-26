@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const URL = `http://localhost:5000/api/auth/login`;
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   const handleInput = (e) => {
     let name = e.target.name;
@@ -15,9 +18,32 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(user);
+    try {
+      const response = await fetch(URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+      if (response.ok) {
+        alert("log in successful");
+        setUser({
+          email: "",
+          password: "",
+        });
+        navigate('/');
+      } else {
+       
+        alert("Login failed. Please check your credentials.");
+      }
+    } catch (error) {
+      console.log("invalid", error);
+     
+      alert("An error occurred while logging in. Please try again later.");
+    }
   };
 
   return (
