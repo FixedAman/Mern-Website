@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Changed import
+import { useAuth } from "../store/auth";
 
 const Registration = () => {
   const [user, setUser] = useState({
@@ -8,7 +9,8 @@ const Registration = () => {
     phone: "",
     password: "",
   });
-  const navigate = useNavigate(); // Changed to useNavigate()
+  const navigate = useNavigate();
+  const { storeTokenInLS } = useAuth()
   const URL = `http://localhost:5000/api/auth/registration`;
   const handleInput = (e) => {
     let name = e.target.name;
@@ -24,7 +26,7 @@ const Registration = () => {
     e.preventDefault();
     console.log(user);
     try {
-      const response = await fetch(URL,{
+      const response = await fetch(URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -32,6 +34,8 @@ const Registration = () => {
         body: JSON.stringify(user),
       });
       if (response.ok) {
+        const res_data = await response.json();
+        storeTokenInLS(res_data.token);
         setUser({ username: "", email: "", phone: "", password: "" });
         navigate("/login");
       }
