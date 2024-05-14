@@ -1,3 +1,4 @@
+const { get } = require("mongoose");
 const User = require("../models/user-model");
 const bcrypt = require("bcryptjs");
 // Home route
@@ -68,4 +69,15 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { home, register, login };
+// get user data logic
+const user = async (req, res) => {
+  try {
+    const userData = req.user;
+    console.log(userData);
+    res.status(200).json({ msg: "hi user" });
+  } catch (error) {
+    conssole.log(`from the user root ${error}`);
+  }
+};
+
+module.exports = { home, register, login, user };
