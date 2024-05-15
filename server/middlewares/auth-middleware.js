@@ -1,31 +1,32 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/user-model");
-const authMiddleware = async (req, res, next) => {
-  const token = req.header("Authorization");
 
-  if (!token) {
-    return res.status(401).json({ msg: "token is not provided" });
+const authMiddleware = async (req, res, next) => {
+  const authHeader = req.header("Authorization");
+
+  if (!authHeader) {
+    return res.status(401).json({ msg: "Token is not provided" });
   }
 
-  const jwtToken = token.replace("Bearer", "").trim();
+  const token = authHeader.replace("Bearer ", "").trim();
 
   try {
-    const isVerified = jwt.verify(jwtToken, process.env.SIGNATURE_KEY);
+    const isVerified = jwt.verify(token, process.env.SIGNATURE_KEY);
 
-    const userData = await User.findOne({
-      email: isVerified.email,
-    }).select({
-      password: 0,
-    });
-    console.log(userData);
+    const userData = await User.findOne({ email: isVerified.email }).select('-password');
+    if (!userData) {
+      return res.status(401).json({ msg: "User not found" });
+    }
+
     req.user = userData;
     req.token = token;
     req.userID = userData._id;
 
     next();
   } catch (error) {
-    return res.status(401).json({ msg: "token error " });
+    console.error(error);
+    return res.status(401).json({ msg: "Token error" });
   }
 };
 
-module.exports = { authMiddleware };
+module.exports = authMiddleware;

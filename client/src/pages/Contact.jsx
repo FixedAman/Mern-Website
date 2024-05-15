@@ -1,23 +1,34 @@
 import React, { useState } from "react";
+import { useAuth } from "../store/auth";
 
 const Contact = () => {
-  const [user, setUser] = useState({
+  const [contact, setContact] = useState({
     email: "",
     username: "",
     message: "",
   });
+  const [userData, setUserData] = useState(true);
+  const { user } = useAuth();
+  if (userData && user) {
+    setContact({
+      username: user.username,
+      email:user.email,
+      message: "",
+    });
+    setUserData(false);
+  }
 
   const handleInput = (e) => {
     const { name, value } = e.target;
-    setUser({
-      ...user,
+    setContact({
+      ...contact,
       [name]: value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(JSON.stringify(user)); // Alerting an object directly will not work, stringify it first
+    alert(JSON.stringify(contact)); // Alerting an object directly will not work, stringify it first
   };
 
   return (
@@ -25,20 +36,17 @@ const Contact = () => {
       <section className="section-contact">
         <main>
           <div className="section-contact">
-          
             <div className="container grid grid-two-cols">
-            
               <div className="contact-img">
-              
-                <img 
+                <img
                   src="/images/support.png"
                   alt="24/7 support"
                   width={500}
                   height={500}
                 />
               </div>
-              <div className=" contact-content container  contact-form">
-              <h1 className="main-heading mb-3" >Contact Us</h1>
+              <div className="contact-content container contact-form">
+                <h1 className="main-heading mb-3">Contact Us</h1>
                 <br />
                 <form action="" onSubmit={handleSubmit}>
                   <div>
@@ -50,7 +58,7 @@ const Contact = () => {
                       id="username"
                       required
                       autoComplete="off"
-                      value={user.username}
+                      value={contact.username}
                       onChange={handleInput}
                     />
                   </div>
@@ -63,7 +71,7 @@ const Contact = () => {
                       id="email"
                       required
                       autoComplete="off"
-                      value={user.email}
+                      value={contact.email}
                       onChange={handleInput}
                     />
                   </div>
@@ -78,7 +86,7 @@ const Contact = () => {
                       placeholder="Tell us your concern"
                       required
                       autoComplete="off"
-                      value={user.message}
+                      value={contact.message}
                       onChange={handleInput}
                     ></textarea>
                   </div>
@@ -92,7 +100,14 @@ const Contact = () => {
         </main>
       </section>
       <section className="mb-3">
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d58909.04820865264!2d87.7369666!3d22.6606661!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f808fcc853abdb%3A0xb7113f44ca31e963!2sGhatal%2C%20West%20Bengal%20721212!5e0!3m2!1sen!2sin!4v1713878080972!5m2!1sen!2sin" width="100%" height="450" allowFullScreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d58909.04820865264!2d87.7369666!3d22.6606661!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f808fcc853abdb%3A0xb7113f44ca31e963!2sGhatal%2C%20West%20Bengal%20721212!5e0!3m2!1sen!2sin!4v1713878080972!5m2!1sen!2sin"
+          width="100%"
+          height="450"
+          allowFullScreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
       </section>
     </>
   );

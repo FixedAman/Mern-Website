@@ -1,10 +1,11 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 // Create the AuthContext
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
+  const [user, setUser] = useState("");
 
   // Define the storeTokenInLS function
   const storeTokenInLS = (serverToken) => {
@@ -16,9 +17,34 @@ export const AuthProvider = ({ children }) => {
     setToken("");
     return localStorage.removeItem("token");
   };
+  //jwt authentication - currently logged in user data
+
+  const userAuthentication = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/user", {
+        method: "GET",
+        headers: {
+          Autorization: `Bearer ${token}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log("user data ", data.userData);
+        setUser(data.userData);
+      }
+    } catch (error) {
+      console.error("unable to fetch the data ");
+    }
+  };
+
+  useEffect(() => {
+    userAuthentication();
+  }, []);
   // Provide the context value
   return (
-    <AuthContext.Provider value={{isLoggedIn, storeTokenInLS, LogoutUser }}>
+    <AuthContext.Provider
+      value={{ isLoggedIn, storeTokenInLS, LogoutUser, user }}
+    >
       {children}
     </AuthContext.Provider>
   );
