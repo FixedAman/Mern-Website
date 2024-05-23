@@ -6,6 +6,7 @@ const PORT = 5000;
 const connectDb = require("./utils/db");
 const errorMiddleware = require("./middlewares/error-middleware");
 const contactRoute = require("./routes/contact.router");
+const serviceRoute = require("./routes/service-router");
 const cors = require("cors");
 
 // handeling both local severs (tackeling cors policy)
@@ -21,6 +22,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoute);
 app.use("/api/form", contactRoute);
+app.use("/api/data", serviceRoute);
 // error handler
 app.use(errorMiddleware);
 

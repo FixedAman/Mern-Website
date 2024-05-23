@@ -1,34 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../store/auth";
 
+const defaultContactFormdata = {
+  username: "",
+  email: "",
+  message: "",
+};
+
 const Contact = () => {
-  const [contact, setContact] = useState({
-    email: "",
-    username: "",
-    message: "",
-  });
-  const [userData, setUserData] = useState(true);
+  const [contact, setContact] = useState(defaultContactFormdata);
   const { user } = useAuth();
-  if (userData && user) {
-    setContact({
-      username: user.username,
-      email:user.email,
-      message: "",
-    });
-    setUserData(false);
-  }
+
+  useEffect(() => {
+    if (user) {
+      setContact({
+        username: user.username,
+        email: user.email,
+        message: "",
+      });
+    }
+  }, [user]);
 
   const handleInput = (e) => {
     const { name, value } = e.target;
-    setContact({
-      ...contact,
+    setContact((prevContact) => ({
+      ...prevContact,
       [name]: value,
-    });
+    }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(JSON.stringify(contact)); // Alerting an object directly will not work, stringify it first
+    try {
+      const response = await fetch("http://localhost:5000/api/form/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(contact), 
+      });
+      if (response.ok) {
+        setContact(defaultContactFormdata);
+        const data = await response.json();
+        console.log(data);
+        alert("Message sent");
+      } else {
+        alert("Message not sent");
+      }
+    } catch (error) {
+      alert("Message not sent");
+      console.log(error);
+    }
   };
 
   return (
@@ -106,7 +128,7 @@ const Contact = () => {
           height="450"
           allowFullScreen
           loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
+          referrerPolicy="no-referrer-when-downgrade"
         ></iframe>
       </section>
     </>
