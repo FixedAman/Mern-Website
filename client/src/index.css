@@ -372,7 +372,7 @@ a.active {
     display: flex;
     flex-direction: column;
     gap: 3.2rem;
-    border: 0.2rem solid var(--helper-color);
+    border: 0.2rem solid rgb(38, 120, 158);
 
     & .card-img {
       text-align: center;
@@ -381,6 +381,7 @@ a.active {
         height: auto;
         filter: drop-shadow(0 0 2rem 2rem #fff);
         -webkit-filter: drop-shadow(0 0 2rem 2rem #fff);
+        
       }
     }
 
